@@ -1,15 +1,18 @@
-import os
-from dotenv import load_model_env, load_dotenv
-
-load_dotenv() # Carrega as variáveis do arquivo .env
+import tkinter as tk
+from tkinter import ttk, messagebox
+import psycopg2 
 
 def obter_conexao():
-    return psycopg2.connect(
-        host=os.getenv("DB_HOST"),
-        database=os.getenv("DB_NAME"),
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD"),
-        port=os.getenv("DB_PORT")
-    )
-
+    psycopg2.extensions.register_type(psycopg2.extensions.UNICODE)
+    psycopg2.extensions.register_type(psycopg2.extensions.UNICODEARRAY)
     
+    conn = psycopg2.connect(
+        host="localhost",
+        database="Sistemas_GE", 
+        user="postgres",              
+        password="senha123",        
+        port="5432"                    
+    )
+    conn.set_client_encoding('LATIN1') 
+    return conn
+
