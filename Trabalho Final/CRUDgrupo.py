@@ -17,3 +17,33 @@ def obtener_conexao():
     )
     conn.set_client_encoding('LATIN1') 
     return conn
+# --- CRUD -----
+# --- inserir ---
+def inserir_grupo():
+    nome = grupo_nome_entry.get().strip()
+    id_adm = grupo_idadm_entry.get().strip()
+    descricao = grupo_desc_entry.get().strip()
+    status = grupo_status_entry.get().strip()
+    qtd = grupo_qtd_entry.get().strip()
+    
+    if not nome or not id_adm:
+        messagebox.showwarning("Aviso", "Nome do Grupo e ID do Administrador são obrigatórios!")
+        return
+
+    try:
+        id_adm_tratado = int(id_adm)
+        descricao_tratada = descricao if descricao else None
+        qtd_tratada = int(qtd) if qtd else None
+        
+        conn = obtener_conexao()
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO Grupo (nome_grupo, id_adm, descricao, status, qtd_participantes) 
+            VALUES (%s, %s, %s, %s, %s);
+        """, (nome, id_adm_tratado, descricao_tratada, status, qtd_tratada))
+        
+        conn.commit() 
+        messagebox.showinfo("Sucesso", "Grupo criado com sucesso!")
+        limpar_campos()
+        listar_grupos()
+        
