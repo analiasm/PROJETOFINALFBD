@@ -197,3 +197,42 @@ tk.Button(frame_botoes, text="Inserir", bg="#d4edda", width=12, command=inserir_
 tk.Button(frame_botoes, text="Salvar Edição", bg="#cce5ff", width=12, command=editar_grupo).pack(side="left", padx=5)
 tk.Button(frame_botoes, text="Excluir", bg="#f8d7da", width=12, command=excluir_grupo).pack(side="left", padx=5)
 tk.Button(frame_botoes, text="Limpar Campos", width=12, command=limpar_campos).pack(side="left", padx=5)
+
+
+# Frame para a Listagem Visual (Tabela Treeview)
+frame_tabela = tk.LabelFrame(root, text=" Grupos Cadastrados ")
+frame_tabela.pack(fill="both", expand=True, padx=10, pady=5)
+
+colunas = ("id", "nome", "adm", "descricao", "status", "qtd")
+tabela = ttk.Treeview(frame_tabela, columns=colunas, show="headings")
+
+# Definição dos cabeçalhos da tabela
+tabela.heading("id", text="ID")
+tabela.heading("nome", text="Nome do Grupo")
+tabela.heading("adm", text="ID Adm")
+tabela.heading("descricao", text="Descrição")
+tabela.heading("status", text="Status")
+tabela.heading("qtd", text="Qtd Part.")
+
+# Ajuste da largura das colunas
+tabela.column("id", width=50, anchor="center")
+tabela.column("nome", width=150)
+tabela.column("adm", width=60, anchor="center")
+tabela.column("descricao", width=200)
+tabela.column("status", width=80, anchor="center")
+tabela.column("qtd", width=80, anchor="center")
+
+tabela.pack(fill="both", expand=True, side="left")
+
+# Scrollbar para a tabela
+scrollbar = ttk.Scrollbar(frame_tabela, orient="vertical", command=tabela.yview)
+tabela.configure(yscrollcommand=scrollbar.set)
+scrollbar.pack(side="right", fill="y")
+
+# Evento de clique na tabela para carregar os dados nos inputs
+tabela.bind("<<TreeviewSelect>>", preencher_campos)
+
+# Inicializa listando os dados já existentes no banco
+listar_grupos()
+
+root.mainloop()
