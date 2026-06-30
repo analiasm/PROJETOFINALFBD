@@ -142,3 +142,67 @@ def limpar_campos():
     reserva_grupo_entry.delete(0, tk.END)
 
 
+# INTERFACE GRÁFICA
+root = tk.Tk()
+root.title("CRUD - Gerenciador de Reservas")
+root.geometry("600x500")
+
+# Formulário Entrada
+frame_sala = ttk.LabelFrame(root, text=" Dados da Reserva ", padding=15)
+frame_sala.pack(padx=15, pady=10, fill="x")
+
+tk.Label(frame_sala, text="Data (AAAA-MM-DD):").grid(row=0, column=0, sticky="w", pady=5)
+reserva_data_entry = tk.Entry(frame_sala, width=25)
+reserva_data_entry.grid(row=0, column=1, pady=5, padx=5)
+
+tk.Label(frame_sala, text="ID da Sala:").grid(row=1, column=0, sticky="w", pady=5)
+reserva_sala_entry = tk.Entry(frame_sala, width=25)
+reserva_sala_entry.grid(row=1, column=1, pady=5, padx=5)
+
+tk.Label(frame_sala, text="ID do Grupo (Opcional):").grid(row=2, column=0, sticky="w", pady=5)
+reserva_grupo_entry = tk.Entry(frame_sala, width=25)
+reserva_grupo_entry.grid(row=2, column=1, pady=5, padx=5)
+
+# Frame para os botões 
+frame_botoes = tk.Frame(root)
+frame_botoes.pack(pady=5)
+
+btn_salvar = tk.Button(frame_botoes, text="Inserir Novo", command=reservar_sala, bg="#6EB06E", fg="white", width=12)
+btn_salvar.grid(row=0, column=0, padx=5)
+
+btn_editar = tk.Button(frame_botoes, text="Salvar Edição", command=editar_reserva, bg="#568856", fg="white", width=12)
+btn_editar.grid(row=0, column=1, padx=5)
+
+btn_excluir = tk.Button(frame_botoes, text="Excluir", command=excluir_reserva, bg="#3F613F", fg="white", width=12)
+btn_excluir.grid(row=0, column=2, padx=5)
+
+btn_limpar = tk.Button(frame_botoes, text="Limpar Campos", command=limpar_campos, bg="#314E31", fg="white", width=12)
+btn_limpar.grid(row=0, column=3, padx=5)
+
+# Tabela de Listagem
+frame_tabela = ttk.LabelFrame(root, text=" Reservas Cadastradas ", padding=10)
+frame_tabela.pack(padx=15, pady=10, fill="both", expand=True)
+
+colunas = ("id", "data", "sala", "grupo")
+tabela = ttk.Treeview(frame_tabela, columns=colunas, show="headings", height=8)
+
+# Configurando cabeçalhos 
+tabela.heading("id", text="ID Reserva")
+tabela.heading("data", text="Data")
+tabela.heading("sala", text="ID Sala")
+tabela.heading("grupo", text="ID Grupo")
+
+# Ajustando Colunas
+tabela.column("id", width=80, anchor="center")
+tabela.column("data", width=150, anchor="center")
+tabela.column("sala", width=100, anchor="center")
+tabela.column("grupo", width=100, anchor="center")
+
+tabela.pack(fill="both", expand=True)
+
+tabela.bind("<<TreeviewSelect>>", obter_linha_selecionada)
+
+# Executa a listagem
+listar_reservas()
+
+root.mainloop()
