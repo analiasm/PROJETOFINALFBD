@@ -29,7 +29,6 @@ def inserir_grupo():
     if not nome or not id_adm:
         messagebox.showwarning("Aviso", "Nome do Grupo e ID do Administrador são obrigatórios!")
         return
-
     try:
         id_adm_tratado = int(id_adm)
         descricao_tratada = descricao if descricao else None
@@ -47,3 +46,27 @@ def inserir_grupo():
         limpar_campos()
         listar_grupos()
         
+# ---- Excluir ---
+def excluir_grupo():
+    id_grupo = grupo_id_entry.get().strip()
+    if not id_grupo:
+        messagebox.showwarning("Aviso", "Selecione um grupo na lista para excluir!")
+        return
+        
+    if messagebox.askyesno("Confirmar", "Tem certeza que deseja excluir este grupo?"):
+        try:
+            conn = obtener_conexao()
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM Grupo WHERE id_grupo = %s;", (int(id_grupo),))
+            conn.commit()
+            
+            messagebox.showinfo("Sucesso", "Grupo excluído com sucesso!")
+            limpar_campos()
+            listar_grupos()
+            
+        except Exception as e:
+            messagebox.showerror("Erro", f"Erro ao excluir grupo: {e}")
+        finally:
+            if 'conn' in locals():
+                cursor.close()
+                conn.close()
