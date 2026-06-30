@@ -15,5 +15,5 @@ def obtener_conexao():
         password="senha123",        
         port="5432"                    
     )
-    conn.set_client_encoding('LATIN1') # Mantido conforme seu padrão de encoding
+    conn.set_client_encoding('LATIN1') 
     return conn
