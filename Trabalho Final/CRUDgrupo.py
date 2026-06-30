@@ -127,3 +127,28 @@ def editar_grupo():
             cursor.close()
             conn.close()
 
+# --- INTERFACE ---
+# -- funções auxiliares da inteerface --
+def preencher_campos(event):
+    """ Preenche os campos de texto ao clicar em uma linha da tabela """
+    item_selecionado = tabela.selection()
+    if item_selecionado:
+        valores = tabela.item(item_selecionado, "values")
+        
+        # Limpa e insere os novos valores nos campos
+        limpar_campos()
+        grupo_id_entry.insert(0, valores[0])
+        grupo_nome_entry.insert(0, valores[1])
+        grupo_idadm_entry.insert(0, valores[2])
+        grupo_desc_entry.insert(0, valores[3] if valores[3] != "None" else "")
+        grupo_status_entry.insert(0, valores[4])
+        grupo_qtd_entry.insert(0, valores[5] if valores[5] != "None" else "")
+
+def limpar_campos():
+    grupo_id_entry.delete(0, tk.END)
+    grupo_nome_entry.delete(0, tk.END)
+    grupo_idadm_entry.delete(0, tk.END)
+    grupo_desc_entry.delete(0, tk.END)
+    grupo_status_entry.delete(0, tk.END)
+    grupo_qtd_entry.delete(0, tk.END)
+
