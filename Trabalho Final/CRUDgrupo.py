@@ -152,3 +152,48 @@ def limpar_campos():
     grupo_status_entry.delete(0, tk.END)
     grupo_qtd_entry.delete(0, tk.END)
 
+# --- interface gráfica ---
+root = tk.Tk()
+root.title("Gerenciamento de Grupos de Estudo")
+root.geometry("750x450")
+
+# Frame para o formulário (Campos de entrada)
+frame_form = tk.LabelFrame(root, text=" Dados do Grupo ", padx=10, pady=10)
+frame_form.pack(fill="x", padx=10, pady=5)
+
+# ID do Grupo (Campo oculto ou desabilitado apenas para controle do SQL)
+tk.Label(frame_form, text="ID Grupo (Auto):").grid(row=0, column=0, sticky="w")
+grupo_id_entry = tk.Entry(frame_form, width=10)
+grupo_id_entry.grid(row=0, column=1, sticky="w")
+# Deixamos desabilitado para o usuário não alterar manualmente o ID do banco
+grupo_id_entry.bind("<Key>", lambda e: "break") 
+
+# --- campos ---
+tk.Label(frame_form, text="Nome Grupo:").grid(row=0, column=2, sticky="w", padx=10)
+grupo_nome_entry = tk.Entry(frame_form, width=30)
+grupo_nome_entry.grid(row=0, column=3, sticky="w")
+
+tk.Label(frame_form, text="ID Adm:").grid(row=1, column=0, sticky="w", pady=5)
+grupo_idadm_entry = tk.Entry(frame_form, width=10)
+grupo_idadm_entry.grid(row=1, column=1, sticky="w", pady=5)
+
+tk.Label(frame_form, text="Status:").grid(row=1, column=2, sticky="w", padx=10)
+grupo_status_entry = tk.Entry(frame_form, width=15)
+grupo_status_entry.grid(row=1, column=3, sticky="w")
+
+tk.Label(frame_form, text="Descrição:").grid(row=2, column=0, sticky="w")
+grupo_desc_entry = tk.Entry(frame_form, width=40)
+grupo_desc_entry.grid(row=2, column=1, columnspan=3, sticky="we")
+
+tk.Label(frame_form, text="Qtd Part.:").grid(row=2, column=4, sticky="w", padx=10)
+grupo_qtd_entry = tk.Entry(frame_form, width=10)
+grupo_qtd_entry.grid(row=2, column=5, sticky="w")
+
+# Frame para os Botões de Ação
+frame_botoes = tk.Frame(root)
+frame_botoes.pack(fill="x", padx=10, pady=5)
+
+tk.Button(frame_botoes, text="Inserir", bg="#d4edda", width=12, command=inserir_grupo).pack(side="left", padx=5)
+tk.Button(frame_botoes, text="Salvar Edição", bg="#cce5ff", width=12, command=editar_grupo).pack(side="left", padx=5)
+tk.Button(frame_botoes, text="Excluir", bg="#f8d7da", width=12, command=excluir_grupo).pack(side="left", padx=5)
+tk.Button(frame_botoes, text="Limpar Campos", width=12, command=limpar_campos).pack(side="left", padx=5)
