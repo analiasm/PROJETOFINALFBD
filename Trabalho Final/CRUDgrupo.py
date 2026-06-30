@@ -92,4 +92,38 @@ def listar_grupos():
         if 'conn' in locals():
             cursor.close()
             conn.close()
+            
+# --- editar ---
+def editar_grupo():
+    id_grupo = grupo_id_entry.get().strip()
+    if not id_grupo:
+        messagebox.showwarning("Aviso", "Selecione um grupo na lista para editar!")
+        return
+        
+    nome = grupo_nome_entry.get().strip()
+    id_adm = grupo_idadm_entry.get().strip()
+    descricao = grupo_desc_entry.get().strip()
+    status = grupo_status_entry.get().strip()
+    qtd = grupo_qtd_entry.get().strip()
+
+    try:
+        conn = obtener_conexao()
+        cursor = conn.cursor()
+        cursor.execute("""
+            UPDATE Grupo 
+            SET nome_grupo = %s, id_adm = %s, descricao = %s, status = %s, qtd_participantes = %s
+            WHERE id_grupo = %s;
+        """, (nome, int(id_adm), descricao if descricao else None, status, int(qtd) if qtd else None, int(id_grupo)))
+        
+        conn.commit()
+        messagebox.showinfo("Sucesso", "Grupo atualizado com sucesso!")
+        limpar_campos()
+        listar_grupos()
+        
+    except Exception as e:
+        messagebox.showerror("Erro", f"Erro ao atualizar grupo: {e}")
+    finally:
+        if 'conn' in locals():
+            cursor.close()
+            conn.close()
 
