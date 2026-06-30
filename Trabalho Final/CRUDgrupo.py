@@ -70,3 +70,26 @@ def excluir_grupo():
             if 'conn' in locals():
                 cursor.close()
                 conn.close()
+
+# --- listar ---
+def listar_grupos():
+    # Limpa a tabela visual antes de recarregar
+    for linha in tabela.get_children():
+        tabela.delete(linha)
+        
+    try:
+        conn = obtener_conexao()
+        cursor = conn.cursor()
+        cursor.execute("SELECT id_grupo, nome_grupo, id_adm, descricao, status, qtd_participantes FROM Grupo ORDER BY id_grupo;")
+        grupos = cursor.fetchall()
+        
+        for grupo in grupos:
+            tabela.insert("", tk.END, values=grupo)
+            
+    except Exception as e:
+        messagebox.showerror("Erro", f"Erro ao listar grupos: {e}")
+    finally:
+        if 'conn' in locals():
+            cursor.close()
+            conn.close()
+
