@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import psycopg2 
 
-# configuração da conexão com poatgresql
+# configuração da conexão com postgresql
 def obter_conexao():
     psycopg2.extensions.register_type(psycopg2.extensions.UNICODE)
     psycopg2.extensions.register_type(psycopg2.extensions.UNICODEARRAY)
